@@ -8,7 +8,7 @@ body {
 
 .container {
   text-align: center;
-  padding-top: 80px;
+  padding-top: 60px;
   padding-bottom: 40px;
 }
 
@@ -53,7 +53,42 @@ h2 {
   border: 1px solid rgba(148, 163, 184, 0.2);
 }
 
-/* Input */
+#logo {
+  position: fixed;
+  top: -7px;
+  left: 25px;
+  font-size: 20px;
+  font-weight: bold;
+  z-index: 1000;
+}
+
+#title {
+  font-size: 80px;
+  margin-top: 200px;
+  margin-bottom: -25px;
+}
+
+#mini-description {
+  color: #94a3b8;
+  margin-bottom: 30px;
+  font-size: 30px;
+}
+
+#AI {
+  color: #9c7adc;
+  font-style: italic;
+  margin-right: 2px;
+
+}
+
+#scan-button {
+  width: 200px;
+  padding: 14px;
+  border-radius: 99px;
+
+  background: radial-gradient(circle at top, #0d50ed, #020617);
+}
+
 input {
   width: 92%;
   padding: 14px;
@@ -65,7 +100,23 @@ input {
   color: white;
 }
 
-/* Button */
+.navbar {
+  display: flex;
+  justify-content: center;
+  gap: 25px;
+  padding: 20px;
+}
+
+.navbar a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.navbar a:hover {
+  color: #9c7adc;
+}
+
 button {
   width: 30%;
   padding: 14px;
@@ -76,19 +127,22 @@ button {
   font-weight: bold;
   cursor: pointer;
   transition: 0.2s;
+  margin-top: 10px;
 }
 
 button:hover {
   transform: scale(1.02);
 }
 
-/* Result box */
 .result {
   margin-top: 20px;
   padding: 15px;
   border-radius: 12px;
   background: #0f172a;
   border: 1px solid rgba(148, 163, 184, 0.2);
+
+  word-break: break-word;
+  overflow-wrap: break-word;
 }
 
 /* Status styles */

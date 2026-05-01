@@ -1,0 +1,121 @@
+import React, { useState, useEffect } from "react";
+import "../App.css";
+
+function ScanPage() {
+  const [url, setUrl] = useState("");
+  const [result, setResult] = useState({});
+  const [loading, setLoading] = useState(false);
+  const [history, setHistory] = useState([]);
+
+  const loadHistory = async () => {
+  try {
+    const response = await fetch("http://127.0.0.1:8000/api/history/");
+    const data = await response.json();
+    setHistory(data);
+  } catch (error) {
+    console.log("History failed");
+  }
+};
+
+  useEffect(() => {
+    loadHistory();
+  }, []);
+
+  const isValidUrl = (string) => {
+    try {
+      new URL(string);
+      return true;
+    } catch (_) {
+      return false;
+    }
+  };
+
+  const handleCheck = async () => {
+    if (!url) {
+      setResult({ error: "Please enter a URL" });
+      return;
+    }
+
+    if (!isValidUrl(url)) {
+      setResult({ error: "Invalid URL format" });
+      return;
+    }
+
+    setLoading(true);
+    setResult({});
+
+    try {
+      const response = await fetch("http://127.0.0.1:8000/api/predict/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ url }),
+      });
+
+      const data = await response.json();
+      loadHistory();
+
+      if (data.error) {
+        setResult({ error: data.error });
+      } else {
+        setResult({
+          prediction: data.prediction,
+          confidence: data.confidence,
+        });
+      }
+    } catch (error) {
+      setResult({ error: "Backend connection failed" });
+    }
+
+    setLoading(false);
+  };
+
+  const getClass = () => {
+    if (!result.prediction) return "";
+    return result.prediction === "Phishing" ? "phishing" : "safe";
+  };
+
+  return (
+    <div className="container">
+      <h1>🪝HookTrap</h1>
+      <p>Instantly scan suspicious URLs using machine learning predictions.</p>
+
+      <div className="card">
+        <h2 id="heading">Start Scanning</h2>
+        <p id="description">Paste your suspicious link here</p>
+        <input
+          type="text"
+          placeholder="https://example.com"
+          value={url}
+          onChange={(e) => setUrl(e.target.value)}
+        />
+
+        {/* RESULT */}
+        {loading && <div className="result">Checking URL...</div>}
+
+        {!loading && result.error && (
+          <div className="result warning">{result.error}</div>
+        )}
+
+        {!loading && result.prediction && (
+          <div
+            className={`result ${
+              result.prediction === "Phishing" ? "phishing" : "safe"
+            }`}
+          >
+            <h2>{result.prediction}</h2>
+            <p>Confidence: {Math.round(result.confidence * 100)}%</p>
+          </div>
+        )}
+        <div style={{ marginTop: "20px"}}>
+        <button onClick={handleCheck}>
+          {loading ? "Scanning..." : "Check URL"}
+        </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default ScanPage;
