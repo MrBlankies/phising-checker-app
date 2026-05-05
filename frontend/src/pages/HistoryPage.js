@@ -5,15 +5,14 @@ function HistoryPage() {
   const [history, setHistory] = useState([]);
 
   const loadHistory = async () => {
-    const response = await fetch("http://127.0.0.1:8000/api/history/");
+    const response = await fetch("http://localhost:8000/api/history/", { credentials: "include" }); 
     const data = await response.json();
     setHistory(data);
   };
 
   const clearHistory = async () => {
-  await fetch("http://127.0.0.1:8000/api/history/delete/", {
-    method: "DELETE",
-  });
+  if (window.confirm("Clear history?"))
+  await fetch("http://localhost:8000/api/history/delete/", { credentials: "include", method: "DELETE" });
 
   loadHistory();
 };
@@ -35,9 +34,9 @@ function HistoryPage() {
         ) : (
           history.map((item, index) => (
             <div
-  key={index}
+  key={item.id}
   className="result"
-  style={{ marginBottom: "10px", textAlign: "left" }}
+  style={{ marginBottom: "10px", textAlign: "left", width: "92%" }}
 >
   <strong style={{ fontSize: "14px" }}>{item.url}</strong>
   <br />

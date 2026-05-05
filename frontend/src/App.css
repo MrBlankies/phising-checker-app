@@ -85,7 +85,6 @@ h2 {
   width: 200px;
   padding: 14px;
   border-radius: 99px;
-
   background: radial-gradient(circle at top, #0d50ed, #020617);
 }
 
@@ -140,9 +139,11 @@ button:hover {
   border-radius: 12px;
   background: #0f172a;
   border: 1px solid rgba(148, 163, 184, 0.2);
-
   word-break: break-word;
   overflow-wrap: break-word;
+  width: 60%;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 /* Status styles */

@@ -9,7 +9,9 @@ function ScanPage() {
 
   const loadHistory = async () => {
   try {
-    const response = await fetch("http://127.0.0.1:8000/api/history/");
+    const response = await fetch("http://localhost:8000/api/history/", {
+      credentials: "include"
+    });
     const data = await response.json();
     setHistory(data);
   } catch (error) {
@@ -45,11 +47,12 @@ function ScanPage() {
     setResult({});
 
     try {
-      const response = await fetch("http://127.0.0.1:8000/api/predict/", {
+      const response = await fetch("http://localhost:8000/api/predict/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
+        credentials: "include",
         body: JSON.stringify({ url }),
       });
 
@@ -95,7 +98,9 @@ function ScanPage() {
         {loading && <div className="result">Checking URL...</div>}
 
         {!loading && result.error && (
-          <div className="result warning">{result.error}</div>
+          <div className="result warning" style={{ marginBottom: "20px", border: "1px solid #ccc", padding: "10px" }}>
+            {result.error}
+          </div>
         )}
 
         {!loading && result.prediction && (
@@ -103,6 +108,7 @@ function ScanPage() {
             className={`result ${
               result.prediction === "Phishing" ? "phishing" : "safe"
             }`}
+            style={{ width: "92%" }}
           >
             <h2>{result.prediction}</h2>
             <p>Confidence: {Math.round(result.confidence * 100)}%</p>
