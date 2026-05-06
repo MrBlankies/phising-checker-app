@@ -85,18 +85,15 @@ def delete_history(request):
 @csrf_exempt
 def predict_url(request):
     if request.method == "POST":
-        data = json.loads(request.body)
+        try:
+            data = json.loads(request.body)
+        except Exception as e:
+            return JsonResponse({"error": "Invalid JSON body"}, status=400)
+       
         url = data.get("url", "").strip()
 
 
         # INPUT VALIDATION
-        parsed_url = urlparse(url)
-
-        if not parsed_url.scheme:
-            return JsonResponse({
-                "error": "Invalid URL format"
-            }, status=400)
-
         if not url:
             return JsonResponse({
                 "error": "URL cannot be empty"
@@ -110,6 +107,13 @@ def predict_url(request):
         if len(url) > 300:
             return JsonResponse({
                 "error": "URL too long"
+            }, status=400)
+        
+        parsed_url = urlparse(url)
+
+        if not parsed_url.scheme:
+            return JsonResponse({
+                "error": "Invalid URL format"
             }, status=400)
 
         # Simple feature extraction
