@@ -22,6 +22,11 @@ with open(model_path, "rb") as f:
 def test_api(request):
     return JsonResponse({"message": "Backend is working"})
 
+def current_user(request):
+    if request.user.is_authenticated:
+        return JsonResponse({"username": request.user.username})
+    return JsonResponse({"error": "Not authenticated"}, status=401)
+
 # Login logic --------------------------------
 @csrf_exempt
 def register_user(request):

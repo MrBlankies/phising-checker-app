@@ -12,25 +12,23 @@ function App() {
   const [username, setUsername] = useState("");
   const navigate = useNavigate();
 
-  // Refresh wont log user out if they logged in
-  useEffect(() => {
-    const checkAuth = async () => {
-      try {
-        const res = await fetch("/api/history/", {
-          credentials: "include",
-        });
-
-        if (res.status === 200) {
-          setLoggedIn(true);
-        }
-        else {
-          setLoggedIn(false);
-        }
-      } catch {}
-    };
-
-    checkAuth();
-  }, []);
+useEffect(() => {
+  fetch("/api/user/", {
+    credentials: "include"
+  })
+    .then(res => {
+      if (!res.ok) throw new Error();
+      return res.json();
+    })
+    .then(data => {
+      setLoggedIn(true);
+      setUsername(data.username);
+    })
+    .catch(() => {
+      setLoggedIn(false);
+      setUsername("");
+    });
+}, []);
 
   const handleLogout = async () => {
     await fetch("/api/logout/", {
