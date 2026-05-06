@@ -5,14 +5,14 @@ function HistoryPage() {
   const [history, setHistory] = useState([]);
 
   const loadHistory = async () => {
-    const response = await fetch("http://localhost:8000/api/history/", { credentials: "include" }); 
+    const response = await fetch("/api/history/", { credentials: "include" }); 
     const data = await response.json();
     setHistory(data);
   };
 
   const clearHistory = async () => {
   if (window.confirm("Clear history?"))
-  await fetch("http://localhost:8000/api/history/delete/", { credentials: "include", method: "DELETE" });
+  await fetch("/api/history/delete/", { credentials: "include", method: "DELETE" });
 
   loadHistory();
 };

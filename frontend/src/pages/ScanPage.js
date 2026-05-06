@@ -9,7 +9,7 @@ function ScanPage() {
 
   const loadHistory = async () => {
   try {
-    const response = await fetch("http://localhost:8000/api/history/", {
+    const response = await fetch("/api/history/", {
       credentials: "include"
     });
     const data = await response.json();
@@ -47,7 +47,7 @@ function ScanPage() {
     setResult({});
 
     try {
-      const response = await fetch("http://localhost:8000/api/predict/", {
+      const response = await fetch("/api/predict/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

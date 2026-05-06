@@ -16,7 +16,7 @@ function App() {
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        const res = await fetch("http://localhost:8000/api/history/", {
+        const res = await fetch("/api/history/", {
           credentials: "include",
         });
 
@@ -33,7 +33,7 @@ function App() {
   }, []);
 
   const handleLogout = async () => {
-    await fetch("http://localhost:8000/api/logout/", {
+    await fetch("/api/logout/", {
       credentials: "include",
     });
 
