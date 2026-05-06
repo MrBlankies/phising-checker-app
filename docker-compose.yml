@@ -22,8 +22,6 @@ services:
   frontend:
     build: ./frontend
     command: sh -c "sleep 10 && HOST=0.0.0.0 npm start"
-    volumes:
-      - ./frontend:/app
     ports:
       - "3000:3000"
     depends_on:
