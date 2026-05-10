@@ -5,19 +5,7 @@ function ScanPage() {
   const [url, setUrl] = useState("");
   const [result, setResult] = useState({});
   const [loading, setLoading] = useState(false);
-  const [history, setHistory] = useState([]);
 
-  const loadHistory = async () => {
-  try {
-    const response = await fetch("/api/history/", {
-      credentials: "include"
-    });
-    const data = await response.json();
-    setHistory(data);
-  } catch (error) {
-    console.log("History failed");
-  }
-};
 
   useEffect(() => {
     loadHistory();
@@ -57,26 +45,13 @@ function ScanPage() {
       });
 
       const data = await response.json();
-      loadHistory();
+      setResult(data);
 
-      if (data.error) {
-        setResult({ error: data.error });
-      } else {
-        setResult({
-          prediction: data.prediction,
-          confidence: data.confidence,
-        });
-      }
     } catch (error) {
       setResult({ error: "Backend connection failed" });
     }
 
     setLoading(false);
-  };
-
-  const getClass = () => {
-    if (!result.prediction) return "";
-    return result.prediction === "Phishing" ? "phishing" : "safe";
   };
 
   return (

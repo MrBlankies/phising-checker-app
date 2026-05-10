@@ -9,7 +9,6 @@ import "./App.css";
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
-  const [username, setUsername] = useState("");
   const navigate = useNavigate();
 
 useEffect(() => {
@@ -22,11 +21,9 @@ useEffect(() => {
     })
     .then(data => {
       setLoggedIn(true);
-      setUsername(data.username);
     })
     .catch(() => {
       setLoggedIn(false);
-      setUsername("");
     });
 }, []);
 
@@ -36,7 +33,6 @@ useEffect(() => {
     });
 
     setLoggedIn(false);
-    setUsername("");
     navigate("/login"); 
   };
 
@@ -81,7 +77,6 @@ useEffect(() => {
           element={
             <LoginPage
               setLoggedIn={setLoggedIn}
-              setUsername={setUsername}
             />
           }
         />
@@ -90,7 +85,6 @@ useEffect(() => {
           element={
             <RegisterPage
               setLoggedIn={setLoggedIn}
-              setUsername={setUsername}
             />
           }
         />
