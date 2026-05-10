@@ -22,10 +22,17 @@ with open(model_path, "rb") as f:
 def test_api(request):
     return JsonResponse({"message": "Backend is working"})
 
+from django.http import JsonResponse
+
 def current_user(request):
     if request.user.is_authenticated:
-        return JsonResponse({"username": request.user.username})
-    return JsonResponse({"error": "Not authenticated"}, status=401)
+        return JsonResponse({
+            "username": request.user.username
+        })
+
+    return JsonResponse({
+        "error": "Not authenticated"
+    }, status=401)
 
 # Login logic --------------------------------
 @csrf_exempt
